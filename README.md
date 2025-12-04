@@ -3,7 +3,7 @@
 #### Auto generate HTML files and docs based on TS files in project
 
 ```
-npm run docs
+npm build-docs
 ```
 
 Output files of Markdown files stored in docs
