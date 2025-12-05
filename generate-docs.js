@@ -228,7 +228,9 @@ for (const c of catalogue) {
 const catalogHtml = template
   .replace("{{title}}", "Component Catalogue")
   .replace("{{content}}", `
-    <h1>📚 My UI Library – Component Catalogue</h1>
+    <h1>📚 Angular Library – Component Catalogue</h1>
+
+    
     <p>Total: <strong>${catalogue.length}</strong> components</p>
     <hr/>
     ${catalogue.map(c => `<a href="${c.mdFile.replace(/\.md$/, ".html")}">${c.selector}</a>`).join("<br/>")}
