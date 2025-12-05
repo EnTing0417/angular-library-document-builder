@@ -263,10 +263,14 @@ Total: **${catalogue.length}** components
 ---
 
 ${catalogue
-  .map(c => `### [${c.selector}](${c.mdFile})  
-Source: \`${c.file}\``)
+  .map(c => {
+    const htmlFile = c.mdFile.replace(/\.md$/, ".html");
+    return `### [${c.selector}](${htmlFile})  
+Source: \`${c.file}\``;
+  })
   .join("\n\n")}
 `;
+
 
 fs.writeFileSync(path.join(DOCS_DIR, "_catalog.md"), catalogMd.trim(), "utf8");
 
