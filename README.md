@@ -4,6 +4,13 @@
 
 Add new command ``npm run build-docs``` in package.json
 
+Change ```my-form-components``` to the project name you have been working on.
+
+```
+const LIB_ROOT = path.join(ROOT, "projects", "my-form-components", "src", "lib");
+
+```
+
 ```
 npm run build-docs
 ```

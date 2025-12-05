@@ -31,6 +31,32 @@
           }
         }
       }
+    },
+    "my-form-components": {
+      "projectType": "library",
+      "root": "projects/my-form-components",
+      "sourceRoot": "projects/my-form-components/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/my-form-components/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/my-form-components/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/my-form-components/tsconfig.spec.json"
+          }
+        }
+      }
     }
   }
 }

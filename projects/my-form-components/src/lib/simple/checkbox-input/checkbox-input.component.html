@@ -1,0 +1,6 @@
+<label>
+  <input type="checkbox" [formControl]="control"/> {{label}}
+</label>
+<div *ngIf="control.invalid && (control.dirty || control.touched)">
+  You must accept {{label}}.
+</div>

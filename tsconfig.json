@@ -8,6 +8,9 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "paths": {
+      "my-form-components": [
+        "./dist/my-form-components"
+      ],
       "my-ui-lib": [
         "./dist/my-ui-lib"
       ]
@@ -34,6 +37,12 @@
     },
     {
       "path": "./projects/my-ui-lib/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/my-form-components/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/my-form-components/tsconfig.spec.json"
     }
   ]
 }

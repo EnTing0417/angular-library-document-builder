@@ -7,7 +7,7 @@ const marked = require("marked");
 console.log("=== GENERATE DOCS START ===");
 
 const ROOT = process.cwd();
-const LIB_ROOT = path.join(ROOT, "projects", "my-ui-lib", "src", "lib");
+const LIB_ROOT = path.join(ROOT, "projects", "my-form-components", "src", "lib");
 const DOCS_DIR = path.join(ROOT, "docs");
 const TEMPLATE_FILE = path.join(ROOT, "templates", "docs-template.html");
 const CSS_SRC = path.join(ROOT, "templates", "docs.css");

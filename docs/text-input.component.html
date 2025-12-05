@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Component Catalogue</title>
+  <title>lib-text-input</title>
   <link rel="stylesheet" href="docs.css">
   <!-- Prism.js for syntax highlighting -->
   <link href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/themes/prism-tomorrow.css" rel="stylesheet" />
@@ -47,14 +47,60 @@
       </nav>
     </aside>
     <main class="content">
-      
-    <h1>📚 Angular Library – Component Catalogue</h1>
+      <h1>lib-text-input</h1>
+<p><strong>Source:</strong> <code>C:\Users\enting\Desktop\Projects\angular-builder\projects\my-form-components\src\lib\simple\text-input\text-input.component.ts</code></p>
+<hr>
+<h2>🧩 Component Metadata</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Selector</td>
+<td><code>lib-text-input</code></td>
+</tr>
+<tr>
+<td>Template</td>
+<td><code>./text-input.component.html</code></td>
+</tr>
+<tr>
+<td>Styles</td>
+<td><code>inline</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>📥 Inputs</h2>
+<ul>
+<li><strong>type</strong>: <code>string</code> = &#39;text&#39;</li>
+</ul>
+<hr>
+<h2>📤 Outputs</h2>
+<p><em>None</em></p>
+<hr>
+<h2>🧪 Public Properties</h2>
+<ul>
+<li><strong>label</strong>: <code>string</code></li>
+<li><strong>control</strong>: <code>FormControl</code></li>
+<li><strong>type</strong>: <code>string</code></li>
+</ul>
+<hr>
+<h2>🔧 Public Methods</h2>
+<p><em>None</em></p>
+<hr>
+<h2>🖼 Template Preview</h2>
+<pre><code class="language-html">&lt;label&gt;{{label}}&lt;/label&gt;
+&lt;input [formControl]=&quot;control&quot; [type]=&quot;type&quot;/&gt;
+&lt;div *ngIf=&quot;control.invalid &amp;&amp; (control.dirty || control.touched)&quot;&gt;
+  &lt;div *ngIf=&quot;control.errors?.[&#39;required&#39;]&quot;&gt;{{label}} is required.&lt;/div&gt;
+  &lt;div *ngIf=&quot;control.errors?.[&#39;minlength&#39;]&quot;&gt;
+    Minimum {{control.errors[&#39;minlength&#39;].requiredLength}} characters.
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
 
-    
-    <p>Total: <strong>6</strong> components</p>
-    <hr/>
-    <a href="address-input.component.html">lib-address-input</a><br/><a href="phone-input.component.html">lib-phone-input</a><br/><a href="checkbox-input.component.html">lib-checkbox-input</a><br/><a href="email-input.component.html">lib-email-input</a><br/><a href="select-input.component.html">lib-select-input</a><br/><a href="text-input.component.html">lib-text-input</a>
-  
     </main>
   </div>
 
