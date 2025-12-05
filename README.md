@@ -20,5 +20,5 @@ Angular           : 21.0.3
 Node.js           : 22.20.0
 Package Manager   : npm 10.9.3
 Operating System  : win32 x64
-
-Home Page: https://enting0417.github.io/angular-library-document-builder/index.html
+```
+[Live Demo](https://enting0417.github.io/angular-library-document-builder/index.html)
