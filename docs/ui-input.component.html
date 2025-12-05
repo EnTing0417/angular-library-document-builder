@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ui-input</title>
+  <link rel="stylesheet" href="docs.css">
+  <!-- Prism.js for syntax highlighting -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/themes/prism-tomorrow.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/prism.js"></script>
+</head>
+<body>
+  <div class="doc-container">
+    <aside class="sidebar">
+      <h2>Angular Component Library</h2>
+      <a href="index.html">🏠 Home</a>
+      <nav class="toc">
+        <a href="contact-form.component.html">lib-contact-form</a>
+<a href="ui-input.component.html">ui-input</a> <!-- dynamically injected list of components -->
+      </nav>
+    </aside>
+    <main class="content">
+      <h1>ui-input</h1>
+<p><strong>Source:</strong> <code>C:\Users\enting\Desktop\Projects\angular-builder\projects\my-ui-lib\src\lib\ui-input\ui-input.component.ts</code></p>
+<hr>
+<h2>🧩 Component Metadata</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Selector</td>
+<td><code>ui-input</code></td>
+</tr>
+<tr>
+<td>Template</td>
+<td><code>./ui-input.component.html</code></td>
+</tr>
+<tr>
+<td>Styles</td>
+<td><code>./ui-input.component.css</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>📥 Inputs</h2>
+<p><em>None</em></p>
+<hr>
+<h2>📤 Outputs</h2>
+<p><em>None</em></p>
+<hr>
+<h2>🧪 Public Properties</h2>
+<ul>
+<li><strong>label</strong>: <code>any</code></li>
+<li><strong>type</strong>: <code>any</code></li>
+<li><strong>placeholder</strong>: <code>any</code></li>
+<li><strong>valueChange</strong>: <code>any</code></li>
+<li><strong>value</strong>: <code>string</code></li>
+<li><strong>disabled</strong>: <code>any</code></li>
+<li><strong>onChange</strong>: <code>any</code></li>
+<li><strong>onTouched</strong>: <code>any</code></li>
+</ul>
+<hr>
+<h2>🔧 Public Methods</h2>
+<h3>writeValue()</h3>
+<p><strong>Return:</strong> <code>void</code>
+Params:</p>
+<ul>
+<li>value: <code>string</code></li>
+</ul>
+<h3>registerOnChange()</h3>
+<p><strong>Return:</strong> <code>void</code>
+Params:</p>
+<ul>
+<li>fn: <code>any</code></li>
+</ul>
+<h3>registerOnTouched()</h3>
+<p><strong>Return:</strong> <code>void</code>
+Params:</p>
+<ul>
+<li>fn: <code>any</code></li>
+</ul>
+<h3>setDisabledState()</h3>
+<p><strong>Return:</strong> <code>void</code>
+Params:</p>
+<ul>
+<li>isDisabled: <code>boolean</code></li>
+</ul>
+<h3>handleInput()</h3>
+<p><strong>Return:</strong> <code>void</code>
+Params:</p>
+<ul>
+<li>event: <code>Event</code></li>
+</ul>
+<hr>
+<h2>🖼 Template Preview</h2>
+<pre><code class="language-html">&lt;div class=&quot;ui-form-control&quot;&gt;
+  &lt;label&gt;{{ label }}&lt;/label&gt;
+  &lt;input
+    [type]=&quot;type&quot;
+    [placeholder]=&quot;placeholder&quot;
+    [value]=&quot;value&quot;
+    [disabled]=&quot;disabled&quot;
+    (input)=&quot;handleInput($event)&quot;
+  /&gt;
+&lt;/div&gt;
+</code></pre>
+
+    </main>
+  </div>
+</body>
+</html>
