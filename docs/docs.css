@@ -24,6 +24,7 @@ body {
   top: 0;
   height: 100vh;
   overflow-y: auto;
+  transition: all 0.3s ease;
 }
 
 .sidebar h2 {
@@ -40,6 +41,19 @@ body {
 
 .sidebar a:hover {
   color: #fff;
+}
+
+/* Sidebar toggle button (mobile) */
+.sidebar-toggle {
+  display: none;
+  background-color: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 /* Main content */
@@ -94,6 +108,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin: 1rem 0;
+  overflow-x: auto;
 }
 th, td {
   border: 1px solid #ddd;
@@ -109,12 +124,34 @@ th {
   .doc-container {
     flex-direction: column;
   }
+
   .sidebar {
     width: 100%;
     height: auto;
     position: relative;
+    display: none; /* hidden by default, toggle via button */
   }
+
+  .sidebar-toggle {
+    display: block;
+  }
+
   .content {
     padding: 1rem;
   }
+
+  /* Scale down headings */
+  .content h1 { font-size: 1.5rem; }
+  .content h2 { font-size: 1.3rem; }
+  .content h3 { font-size: 1.1rem; }
+
+  /* Make tables & code scrollable */
+  pre, table {
+    font-size: 0.85rem;
+  }
+}
+
+/* Sidebar visible toggle */
+.sidebar.show {
+  display: block;
 }

@@ -8,8 +8,31 @@
   <!-- Prism.js for syntax highlighting -->
   <link href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/themes/prism-tomorrow.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/prism.js"></script>
+  <style>
+    /* Sidebar Toggle Button (mobile only) */
+    .sidebar-toggle {
+      display: none;
+      background-color: #2563eb;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      margin: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar-toggle {
+        display: block;
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- Sidebar Toggle Button (mobile only) -->
+  <button class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
+
   <div class="doc-container">
     <aside class="sidebar">
       <h2>Angular Component Library</h2>
@@ -22,11 +45,21 @@
     <main class="content">
       
     <h1>📚 Angular Library – Component Catalogue</h1>
+
+    
     <p>Total: <strong>2</strong> components</p>
     <hr/>
     <a href="contact-form.component.html">lib-contact-form</a><br/><a href="ui-input.component.html">ui-input</a>
   
     </main>
   </div>
+
+  <script>
+    // JS function to toggle sidebar on mobile
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.toggle('show');
+    }
+  </script>
 </body>
 </html>
