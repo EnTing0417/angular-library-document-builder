@@ -2,22 +2,25 @@
 const fs = require("fs");
 const path = require("path");
 const ts = require("typescript");
+const marked = require("marked");
 
 console.log("=== GENERATE DOCS START ===");
 
 const ROOT = process.cwd();
 const LIB_ROOT = path.join(ROOT, "projects", "my-ui-lib", "src", "lib");
 const DOCS_DIR = path.join(ROOT, "docs");
+const TEMPLATE_FILE = path.join(ROOT, "templates", "docs-template.html");
+const CSS_SRC = path.join(ROOT, "templates", "docs.css");
 
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
 }
-
 ensureDir(DOCS_DIR);
 
-/* -------------------------------------------------------------
- * 1. Collect TS source files
- * ----------------------------------------------------------- */
+// Copy CSS to docs
+fs.copyFileSync(CSS_SRC, path.join(DOCS_DIR, "docs.css"));
+
+/* ----------------- Collect TS files ----------------- */
 function collectFiles(dir) {
   let results = [];
   for (const file of fs.readdirSync(dir)) {
@@ -39,41 +42,24 @@ function collectFiles(dir) {
 const files = collectFiles(LIB_ROOT);
 console.log("✔ Files collected:", files.length);
 
-/* -------------------------------------------------------------
- * 2. Create TypeScript Program (for method signatures)
- * ----------------------------------------------------------- */
+/* ----------------- TypeScript Program ----------------- */
 const tsconfig = ts.readConfigFile(path.join(ROOT, "tsconfig.json"), ts.sys.readFile);
 const parsed = ts.parseJsonConfigFileContent(tsconfig.config, ts.sys, ROOT);
-
-const program = ts.createProgram({
-  rootNames: files,
-  options: parsed.options,
-});
-
+const program = ts.createProgram({ rootNames: files, options: parsed.options });
 const checker = program.getTypeChecker();
 
-/* -------------------------------------------------------------
- * 3. Extract @Component from raw text (Regex)
- * ----------------------------------------------------------- */
+/* ----------------- Extract Component ----------------- */
 function extractComponentDecorator(src) {
   const regex = /@Component\s*\(\s*{([\s\S]*?)}\s*\)/m;
   const match = src.match(regex);
   if (!match) return null;
-
   const body = match[1];
-
   function getField(name) {
     const re = new RegExp(name + `\\s*:\\s*([^,]+)`, "m");
     const m = body.match(re);
     if (!m) return null;
-
-    try {
-      return eval("(" + m[1] + ")");
-    } catch {
-      return null;
-    }
+    try { return eval("(" + m[1] + ")"); } catch { return null; }
   }
-
   return {
     selector: getField("selector"),
     templateUrl: getField("templateUrl"),
@@ -82,9 +68,7 @@ function extractComponentDecorator(src) {
   };
 }
 
-/* -------------------------------------------------------------
- * 4. Extract Inputs, Outputs + type + default
- * ----------------------------------------------------------- */
+/* ----------------- Extract Inputs/Outputs ----------------- */
 function extractInputsOutputs(src) {
   const inputs = [];
   const outputs = [];
@@ -113,57 +97,38 @@ function extractInputsOutputs(src) {
   return { inputs, outputs };
 }
 
-/* -------------------------------------------------------------
- * 5. Extract PUBLIC METHODS & PROPERTIES from TS AST
- * ----------------------------------------------------------- */
+/* ----------------- Extract Public API ----------------- */
 function getASTPublicAPI(sourceFile) {
-  const result = {
-    methods: [],
-    properties: [],
-  };
-
+  const result = { methods: [], properties: [] };
   function visit(node) {
     if (ts.isClassDeclaration(node) && node.name) {
       for (const member of node.members) {
-        // Public method
-        if (
-          ts.isMethodDeclaration(member) &&
-          !(member.modifiers?.some(m => m.kind === ts.SyntaxKind.PrivateKeyword))
-        ) {
+        if (ts.isMethodDeclaration(member) && !(member.modifiers?.some(m => m.kind === ts.SyntaxKind.PrivateKeyword))) {
           const name = member.name.getText();
           const signature = checker.getSignatureFromDeclaration(member);
           const returnType = checker.typeToString(signature.getReturnType());
-
           const params = member.parameters.map(p => ({
             name: p.name.getText(),
             type: p.type ? p.type.getText() : "any",
           }));
-
           result.methods.push({ name, params, returnType });
         }
 
-        // Public property
-        if (
-          ts.isPropertyDeclaration(member) &&
-          !(member.modifiers?.some(m => m.kind === ts.SyntaxKind.PrivateKeyword))
-        ) {
+        if (ts.isPropertyDeclaration(member) && !(member.modifiers?.some(m => m.kind === ts.SyntaxKind.PrivateKeyword))) {
           const name = member.name.getText();
           const type = member.type ? member.type.getText() : "any";
           result.properties.push({ name, type });
         }
       }
     }
-
     ts.forEachChild(node, visit);
   }
-
   visit(sourceFile);
   return result;
 }
 
-/* -------------------------------------------------------------
- * 6. Process component files
- * ----------------------------------------------------------- */
+/* ----------------- Process Components ----------------- */
+const template = fs.readFileSync(TEMPLATE_FILE, "utf8");
 const catalogue = [];
 
 for (const file of files) {
@@ -171,17 +136,11 @@ for (const file of files) {
 
   const src = fs.readFileSync(file, "utf8");
   const comp = extractComponentDecorator(src);
-  if (!comp) {
-    console.log(" ❌ Not a component.");
-    continue;
-  }
+  if (!comp) { console.log(" ❌ Not a component."); continue; }
 
   console.log(" ✔ Component detected:", comp.selector);
 
-  // Inputs & outputs
   const { inputs, outputs } = extractInputsOutputs(src);
-
-  // AST Public API
   const sf = program.getSourceFile(file);
   const publicAPI = getASTPublicAPI(sf);
 
@@ -189,14 +148,10 @@ for (const file of files) {
   let templateContent = "";
   if (comp.templateUrl) {
     const templatePath = path.join(path.dirname(file), comp.templateUrl);
-    if (fs.existsSync(templatePath)) {
-      templateContent = fs.readFileSync(templatePath, "utf8");
-    } else {
-      templateContent = "(template file not found)";
-    }
+    templateContent = fs.existsSync(templatePath) ? fs.readFileSync(templatePath, "utf8") : "(template file not found)";
   }
 
-  // Markdown generation
+  // Markdown
   const mdFile = path.join(DOCS_DIR, path.basename(file).replace(".ts", ".md"));
   ensureDir(DOCS_DIR);
 
@@ -232,7 +187,7 @@ ${publicAPI.properties.length ? publicAPI.properties.map(p => `- **${p.name}**: 
 ---
 
 ## 🔧 Public Methods
-${publicAPI.methods.length ? publicAPI.methods.map(m => `### ${m.name}()\n**Return:** \`${m.returnType}\`\nParams:\n${m.params.length ? m.params.map(p => `- ${p.name}: \`${p.type}\``).join("\n") : "_None_"}\n`).join("\n") : "_None_"}
+${publicAPI.methods.length ? publicAPI.methods.map(m => `### ${m.name}()\n**Return:** \`${m.returnType}\`\nParams:\n${m.params.length ? m.params.map(p => `- ${p.name}: \`${p.type}\``).join("\n") : "_None_"}`).join("\n") : "_None_"}
 
 ---
 
@@ -245,33 +200,42 @@ ${templateContent}
   fs.writeFileSync(mdFile, md.trim(), "utf8");
   console.log(" ✔ Markdown written:", mdFile);
 
-  catalogue.push({
-    selector: comp.selector,
-    file,
-    mdFile: path.basename(mdFile),
-  });
+  catalogue.push({ selector: comp.selector, file, mdFile: path.basename(mdFile) });
 }
 
-/* -------------------------------------------------------------
- * 7. Generate Component Catalogue
- * ----------------------------------------------------------- */
-const catalogMd = `
-# 📚 My UI Library – Component Catalogue
+/* ----------------- Build Sidebar ----------------- */
+const sidebarHtml = catalogue
+  .map(c => `<a href="${c.mdFile.replace(/\.md$/, ".html")}">${c.selector}</a>`)
+  .join("\n");
 
-Total: **${catalogue.length}** components
+/* ----------------- Generate Component HTML ----------------- */
+for (const c of catalogue) {
+  const mdFile = path.join(DOCS_DIR, c.mdFile);
+  const mdContent = fs.readFileSync(mdFile, "utf8");
+  const mdHtml = marked.parse(mdContent);
 
----
+  const html = template
+    .replace("{{title}}", c.selector)
+    .replace("{{content}}", mdHtml)
+    .replace("{{sidebar}}", sidebarHtml);
 
-${catalogue
-  .map(c => {
-    const htmlFile = c.mdFile.replace(/\.md$/, ".html");
-    return `### [${c.selector}](${htmlFile})  
-Source: \`${c.file}\``;
-  })
-  .join("\n\n")}
-`;
+  const htmlFile = mdFile.replace(/\.md$/, ".html");
+  fs.writeFileSync(htmlFile, html, "utf8");
+  console.log(" ✔ HTML written:", htmlFile);
+}
 
+/* ----------------- Generate Catalogue Page ----------------- */
+const catalogHtml = template
+  .replace("{{title}}", "Component Catalogue")
+  .replace("{{content}}", `
+    <h1>📚 My UI Library – Component Catalogue</h1>
+    <p>Total: <strong>${catalogue.length}</strong> components</p>
+    <hr/>
+    ${catalogue.map(c => `<a href="${c.mdFile.replace(/\.md$/, ".html")}">${c.selector}</a>`).join("<br/>")}
+  `)
+  .replace("{{sidebar}}", sidebarHtml);
 
-fs.writeFileSync(path.join(DOCS_DIR, "_catalog.md"), catalogMd.trim(), "utf8");
+fs.writeFileSync(path.join(DOCS_DIR, "index.html"), catalogHtml, "utf8");
+console.log(" ✔ Catalogue HTML written: index.html");
 
 console.log("\n=== DONE ===");

@@ -1,0 +1,120 @@
+/* Base styles */
+body {
+  font-family: "Inter", "Segoe UI", Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+/* Container layout */
+.doc-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #1f2937;
+  color: #fff;
+  padding: 1.5rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+}
+
+.sidebar a {
+  color: #9ca3af;
+  text-decoration: none;
+  display: block;
+  margin: 0.5rem 0;
+}
+
+.sidebar a:hover {
+  color: #fff;
+}
+
+/* Main content */
+.content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: #fff;
+}
+
+/* Headings */
+.content h1 { font-size: 2rem; margin-top: 1.5rem; margin-bottom: 1rem; }
+.content h2 { font-size: 1.75rem; margin-top: 1.5rem; margin-bottom: 1rem; }
+.content h3 { font-size: 1.5rem; margin-top: 1.25rem; margin-bottom: 0.75rem; }
+
+/* Paragraphs & links */
+.content p { margin-bottom: 1rem; }
+.content a { color: #2563eb; text-decoration: underline; }
+.content a:hover { text-decoration: none; }
+
+/* Code blocks */
+pre {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+code {
+  font-family: "Fira Code", monospace;
+  background-color: #f3f4f6;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+/* Blockquotes */
+blockquote {
+  border-left: 4px solid #2563eb;
+  padding-left: 1rem;
+  color: #555;
+  margin: 1rem 0;
+}
+
+/* Lists */
+ul, ol {
+  margin: 1rem 0 1rem 2rem;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 0.5rem 1rem;
+}
+th {
+  background-color: #f3f4f6;
+  text-align: left;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .doc-container {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .content {
+    padding: 1rem;
+  }
+}

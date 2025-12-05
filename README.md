@@ -6,10 +6,7 @@
 npm run build-docs
 ```
 
-Output files of Markdown files stored in docs
-
-Output files of HTML files stored in static-files
-
+Output files of Markdown files and HTML files stored in /docs
 
 ```
 Angular CLI       : 21.0.2

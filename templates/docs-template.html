@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="docs.css">
+  <!-- Prism.js for syntax highlighting -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/themes/prism-tomorrow.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/prism.js"></script>
+</head>
+<body>
+  <div class="doc-container">
+    <aside class="sidebar">
+      <h2>Angular Component Library</h2>
+      <nav class="toc">
+        {{sidebar}} <!-- dynamically injected list of components -->
+      </nav>
+    </aside>
+    <main class="content">
+      {{content}}
+    </main>
+  </div>
+</body>
+</html>

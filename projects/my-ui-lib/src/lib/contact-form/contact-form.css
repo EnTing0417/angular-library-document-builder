@@ -1,0 +1,31 @@
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+}
+
+.contact-form label {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+}
+
+.contact-form input,
+.contact-form select {
+  padding: 5px;
+  font-size: 14px;
+  margin-top: 3px;
+}
+
+.contact-form button {
+  padding: 8px 12px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 3px;
+}
